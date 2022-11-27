@@ -6,9 +6,10 @@
 #include <iomanip>
 
 using namespace std;
+// 6 - 25 13
 
 const double STEP = 30;
-const double CONST = 20;
+const double CONST = 17; 
 
 std::vector<Point> points;
 
@@ -29,7 +30,7 @@ void print(const std::vector<Point>& points) {
 }
 
 int main() {
-    freopen("../tests/02.txt", "r", stdin);
+    freopen("../tests/06.txt", "r", stdin);
 
     int n;
     double c1, c2;
@@ -49,9 +50,9 @@ int main() {
 
     std::vector<Point> spoints = points;
     std::sort(spoints.begin(), spoints.end(), &cmp);
-    // print(spoints);
 
     std::vector<pair<Point, Point>> ans;
+
 
     for (double i = minx; i < maxx; i += STEP) {
         double l = i;
