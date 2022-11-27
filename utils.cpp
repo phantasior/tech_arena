@@ -1,5 +1,4 @@
 #include "utils.h"
-
 #include <cmath>
 
 float dist(const Point& lhs, const Point& rhs) {
