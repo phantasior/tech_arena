@@ -1,10 +1,9 @@
-#include "utils.h"
-
-#include <fstream>
 #include <iostream>
+#include "utils.h"
 #include <vector>
+#include <fstream>
 
-std::vector<Point> points;
+using namespace std;
 
 const double STEP = 1;
 
