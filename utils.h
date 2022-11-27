@@ -9,8 +9,4 @@ struct Point {
     }
 };
 
-float dist(const Point& lhs, const Point& rhs);
-
-double y(Point& p1, Point& p2, double x0) {
-    return (x0 - p1._x) * (p2._y - p1._y) / (p2._x - p1._x) + p1._y;
-}
+double y(const Point& p1, const Point& p2, double x0);

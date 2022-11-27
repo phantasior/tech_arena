@@ -5,6 +5,10 @@
 
 using namespace std;
 
+const double STEP = 15;
+
+std::vector<Point> points;
+
 bool cmp(const Point& lhs, const Point& rhs) {
     if (lhs.x == rhs.x) {
         return lhs.y < rhs.y;
@@ -22,63 +26,58 @@ void print(const std::vector<Point>& points) {
 }
 
 int main() {
-    freopen("../tests/04.txt", "r", stdin);
+    freopen("../tests/02.txt", "r", stdin);
 
     int n;
     double c1, c2;
     std::cin >> n >> c1 >> c2;
     points.resize(n);
 
-
-    std::vector<std::pair<Point, Point>> ans;
-
+    double minx = INT_MAX, maxx = -INT_MAX;
     for (int i = 0; i < n; ++i) {
         double x, y;
         std::cin >> x >> y;
         points[i] = {x, y};
 
+        minx = std::min(minx, x);
+        maxx = std::max(maxx, x);
+
     }
 
     std::vector<Point> spoints = points;
-    sort(spoints.begin(), spoints.end(), &cmp);
-    print(spoints);
+    std::sort(spoints.begin(), spoints.end(), &cmp);
+    // print(spoints);
 
-    for (int i = 0 ; i < n; ++i) {
-        int j = i;
-        while (spoints[i].x == spoints[j].x) {
-            j++;
-        }
+    std::vector<pair<Point, Point>> ans;
 
-        if (j == n) break;
+    for (double i = minx; i < maxx; i += STEP) {
+        double l = i;
+        double r = std::min(i + STEP, maxx);
 
-        double miny = spoints[i].y;
-        for (int k = 0; k < n - 1; ++k) {
-            if (points[k].x <= spoints[i].x && spoints[i].x <= points[k + 1].x) {
-                miny = std::min(miny, points[k].y);
+        double miny = INT_MAX, maxy = -INT_MAX;
+        for (int j = 0; j < n - 1; ++j) {
+            if (points[j].x <= l && l <= points[j + 1].x) {
+                double cur = y(points[j], points[j + 1], l);
+                miny = std::min(miny, cur);
+                maxy = std::max(maxy, cur);
+            }
+
+            if (points[j].x <= r && r <= points[j + 1].x) {
+                double cur = y(points[j], points[j + 1], r);
+                miny = std::min(miny, cur);
+                maxy = std::max(maxy, cur);
             }
         }
 
+        ans.push_back({{l, miny}, {r, maxy}});
 
-        // j - is the lowest
-
-        double maxy = spoints[j].y;
-        for (int k = 0; k < n - 1; ++k) {
-            if (points[k].x <= spoints[j].x && spoints[j].x <= points[k + 1].x) {
-                maxy = std::max(maxy, points[k].y);
-            }
-        }
-
-        // std::vector<Point> tmp = {points[i], spoints[j]};
-        // sort(tmp.begin(), tmp.end(), &cmp);
-        ans.push_back({{spoints[i].x, miny}, {spoints[j].x, maxy}});
-        i = j - 1;
     }
+
 
     std::cout << std::fixed << std::setprecision(9);
-
     std::cout << ans.size() << '\n';
-    for (auto i : ans) {
-        std::cout << i.first.x << ' ' << i.first.y << ' ' << i.second.x << ' ' << i.second.y << '\n';
+    for (int i = 0; i < ans.size(); ++i) {
+        std::cout << ans[i].first.x << ' ' << ans[i].first.y - 1 << ' ' << ans[i].second.x << ' ' << ans[i].second.y + 1 << '\n';
     }
-
+    
 }
