@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-f = open("./tests/03.txt")
+f = open("./tests/02.txt")
 
 n, c1, c2 = [float(i) for i in f.readline().split()]
 coords = []
