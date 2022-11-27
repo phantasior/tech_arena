@@ -2,6 +2,8 @@
 #include "utils.h"
 #include <vector>
 #include <fstream>
+#include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -27,7 +29,6 @@ void print(const std::vector<Point>& points) {
 
 int main() {
     freopen("../tests/02.txt", "r", stdin);
-
     int n;
     double c1, c2;
     std::cin >> n >> c1 >> c2;
