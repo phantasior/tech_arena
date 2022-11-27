@@ -2,10 +2,13 @@
 #include "utils.h"
 #include <vector>
 #include <fstream>
+#include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
-const double STEP = 15;
+const double STEP = 30;
+const double CONST = 20;
 
 std::vector<Point> points;
 
@@ -26,7 +29,7 @@ void print(const std::vector<Point>& points) {
 }
 
 int main() {
-    freopen("../tests/02.txt", "r", stdin);
+    freopen("../tests/07.txt", "r", stdin);
 
     int n;
     double c1, c2;
@@ -56,7 +59,7 @@ int main() {
 
         double miny = INT_MAX, maxy = -INT_MAX;
         for (int j = 0; j < n - 1; ++j) {
-            if (points[j].x <= l && l <= points[j + 1].x) {
+            if ((points[j].x <= l && l <= points[j + 1].x) || (points[j + 1].x <= l && l <= points[j].x)) {
                 double cur = y(points[j], points[j + 1], l);
                 miny = std::min(miny, cur);
                 maxy = std::max(maxy, cur);
@@ -64,6 +67,12 @@ int main() {
 
             if (points[j].x <= r && r <= points[j + 1].x) {
                 double cur = y(points[j], points[j + 1], r);
+                miny = std::min(miny, cur);
+                maxy = std::max(maxy, cur);
+            }
+
+            if (l <= points[j].x && points[j].x <= r) {
+                double cur = points[j].y;
                 miny = std::min(miny, cur);
                 maxy = std::max(maxy, cur);
             }
@@ -77,7 +86,7 @@ int main() {
     std::cout << std::fixed << std::setprecision(9);
     std::cout << ans.size() << '\n';
     for (int i = 0; i < ans.size(); ++i) {
-        std::cout << ans[i].first.x << ' ' << ans[i].first.y - 1 << ' ' << ans[i].second.x << ' ' << ans[i].second.y + 1 << '\n';
+        std::cout << ans[i].first.x << ' ' << ans[i].first.y - CONST << ' ' << ans[i].second.x << ' ' << ans[i].second.y + CONST << '\n';
     }
     
 }
