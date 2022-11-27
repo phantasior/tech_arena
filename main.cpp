@@ -29,7 +29,7 @@ void print(const std::vector<Point>& points) {
 }
 
 int main() {
-    freopen("../tests/07.txt", "r", stdin);
+    freopen("../tests/02.txt", "r", stdin);
 
     int n;
     double c1, c2;
