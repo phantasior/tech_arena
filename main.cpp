@@ -6,10 +6,9 @@
 #include <iomanip>
 
 using namespace std;
-// 6 - 25 13
 
-const double STEP = 30;
-const double CONST = 17; 
+const double STEP = 5;
+const double CONST = 10; 
 
 std::vector<Point> points;
 
@@ -30,7 +29,7 @@ void print(const std::vector<Point>& points) {
 }
 
 int main() {
-    freopen("../tests/06.txt", "r", stdin);
+    freopen("../tests/02.txt", "r", stdin);
 
     int n;
     double c1, c2;
@@ -48,15 +47,11 @@ int main() {
 
     }
 
-    std::vector<Point> spoints = points;
-    std::sort(spoints.begin(), spoints.end(), &cmp);
-
     std::vector<pair<Point, Point>> ans;
-
 
     for (double i = minx; i < maxx; i += STEP) {
         double l = i;
-        double r = std::min(i + STEP, maxx);
+        double r = i + STEP;
 
         double miny = INT_MAX, maxy = -INT_MAX;
         for (int j = 0; j < n - 1; ++j) {
@@ -66,12 +61,15 @@ int main() {
                 maxy = std::max(maxy, cur);
             }
 
-            if (points[j].x <= r && r <= points[j + 1].x) {
+            if ((points[j].x <= r && r <= points[j + 1].x) || (points[j + 1].x <= r && r <= points[j].x)) {
                 double cur = y(points[j], points[j + 1], r);
                 miny = std::min(miny, cur);
                 maxy = std::max(maxy, cur);
             }
 
+        }
+
+        for (int j = 0; j < n; ++j) {
             if (l <= points[j].x && points[j].x <= r) {
                 double cur = points[j].y;
                 miny = std::min(miny, cur);
